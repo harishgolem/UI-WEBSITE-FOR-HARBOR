@@ -439,14 +439,19 @@ function Cursor({ mousePos }) {
     }
     animate();
 
-    const addHover = () => document.body.classList.add('cursor-hover');
-    const rmHover  = () => document.body.classList.remove('cursor-hover');
-    document.querySelectorAll('button, a, [data-hover]').forEach(el => {
-      el.addEventListener('mouseenter', addHover);
-      el.addEventListener('mouseleave', rmHover);
-    });
+    const handleMouseOver = (e) => {
+      if (e.target && e.target.closest && e.target.closest('button, a, [data-hover], input, select, textarea, .sidebar-nav-item, .sidebar-action-btn')) {
+        document.body.classList.add('cursor-hover');
+      } else {
+        document.body.classList.remove('cursor-hover');
+      }
+    };
+    document.addEventListener('mouseover', handleMouseOver);
 
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener('mouseover', handleMouseOver);
+    };
   }, [mousePos]);
 
   return (

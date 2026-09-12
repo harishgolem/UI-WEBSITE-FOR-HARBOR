@@ -287,13 +287,50 @@ class SoundEngine {
 
   playInteractionClick() {
     if (this.isMuted || !this.ctx) return;
-    this.playGlassTone(1200, 0.03, 0.08);
+    try {
+      this.playGlassTone(1200, 0.03, 0.08);
+    } catch (e) {}
+  }
+
+  playClick(freq = 600, duration = 0.04, volume = 0.08) {
+    if (this.isMuted || !this.ctx) return;
+    try {
+      this.playGlassTone(freq, volume, duration);
+    } catch (e) {}
+  }
+
+  playLaserSweep(volume = 0.12, duration = 0.14) {
+    if (this.isMuted || !this.ctx) return;
+    try {
+      const t = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1400, t);
+      osc.frequency.exponentialRampToValueAtTime(340, t + duration);
+
+      gain.gain.setValueAtTime(volume, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+
+      osc.connect(gain);
+      gain.connect(this.masterGain);
+
+      osc.start(t);
+      osc.stop(t + duration + 0.04);
+    } catch (e) {}
+  }
+
+  playWarp(volume = 0.25) {
+    this.playWarpBoom();
   }
 
   playWarpBoom() {
     if (this.isMuted || !this.ctx) return;
-    this.playDeepSubDrop(140, 28, 0.45, 3.0);
-    this.playHarmonicResonance([130.81, 261.63, 523.25, 1046.50], 0.3, 3.5);
+    try {
+      this.playDeepSubDrop(140, 28, 0.45, 3.0);
+      this.playHarmonicResonance([130.81, 261.63, 523.25, 1046.50], 0.3, 3.5);
+    } catch (e) {}
   }
 }
 

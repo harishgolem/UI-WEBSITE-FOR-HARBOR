@@ -79,9 +79,13 @@ export default function DashboardShell({
   ];
 
   const handleTabClick = (tabId) => {
-    soundEngine.playClick(500, 0.04);
+    try {
+      soundEngine.playClick(500, 0.04);
+    } catch (e) {}
     setActiveTab(tabId);
-    setMobileSidebarOpen(false);
+    if (typeof window !== 'undefined' && window.innerWidth <= 868) {
+      setMobileSidebarOpen(false);
+    }
   };
 
   const getBreadcrumbTitle = () => {
@@ -91,6 +95,13 @@ export default function DashboardShell({
 
   return (
     <div className="dashboard-shell-root fade-in">
+      {/* Mobile Backdrop Overlay */}
+      <div
+        className={`mobile-sidebar-backdrop ${mobileSidebarOpen ? 'active' : ''}`}
+        onClick={() => setMobileSidebarOpen(false)}
+        aria-hidden="true"
+      />
+
       {/* Sidebar (Desktop & Drawer for Mobile) */}
       <aside className={`dashboard-sidebar ${mobileSidebarOpen ? 'mobile-open' : ''}`}>
         {/* Brand Header */}
@@ -111,9 +122,11 @@ export default function DashboardShell({
           </div>
           <button
             onClick={() => setMobileSidebarOpen(false)}
-            className="md:hidden text-slate-400 hover:text-white ml-auto"
+            className="sidebar-mobile-close-btn"
+            title="Close navigation"
+            aria-label="Close navigation"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -122,11 +135,11 @@ export default function DashboardShell({
           <div className="sidebar-avatar font-hero">
             {user?.name ? user.name.charAt(0) : 'H'}
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-white text-xs font-bold truncate">{user?.name || 'Harish S'}</div>
-            <div className="font-mono text-[10px] text-cyan truncate">@{user?.username || 'harishgolem'}</div>
+          <div className="sidebar-user-info">
+            <div className="sidebar-user-name">{user?.name || 'Harish S'}</div>
+            <div className="sidebar-user-handle">@{user?.username || 'harishgolem'}</div>
           </div>
-          <div className="trust-pill font-mono text-[10px]" title="Current HARBOR Trust Score">
+          <div className="trust-pill font-mono" title="Current HARBOR Trust Score">
             {user?.trustScore || 92}
           </div>
         </div>
@@ -144,7 +157,7 @@ export default function DashboardShell({
                 data-hover
               >
                 <IconComp className="w-4 h-4 shrink-0" />
-                <span className="truncate">{item.label}</span>
+                <span className="sidebar-nav-label">{item.label}</span>
                 {item.badge && (
                   <span
                     className="sidebar-item-badge ml-auto font-mono"
@@ -182,9 +195,11 @@ export default function DashboardShell({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileSidebarOpen(true)}
-              className="md:hidden text-slate-300 hover:text-white p-1"
+              className="mobile-menu-toggle-btn"
+              title="Open navigation menu"
+              aria-label="Open navigation menu"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-4 h-4" />
             </button>
 
             {/* Breadcrumb */}
