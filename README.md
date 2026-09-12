@@ -169,7 +169,33 @@ UI-WEBSITE-FOR-HARBOR/
 - **Chapter Dots (Right Sidebar)**: Click any chapter dot to jump directly to that phase.
 - **Audio Toggle (Top Right)**: Enable / mute synthesized procedural audio.
 - **"ENTER HARBOUR"**: Enter the protected vault interface at the final stage.
+## 🤖 AI-Assisted Development
 
+This project was developed with the assistance of AI-powered development
+tools, including Google Antigravity.
+
+AI assistance was used for:
+- Frontend development and component implementation
+- UI/UX design exploration
+- 3D scene development and refinement
+- Debugging and code improvements
+- Feature development and iteration
+
+The project concept, requirements, design direction, and final development
+decisions were defined and reviewed by the developer.
+
+AI tools were used as development assistants, while the resulting
+implementation was reviewed and tested for functionality.
+## ⚠️ Project Disclaimer
+
+HARBOR is currently a frontend-focused demonstration of a financial
+security platform.
+
+The transaction security visualizations and protection metrics are
+conceptual and intended for demonstration purposes.
+
+The project does not currently provide real financial protection,
+fraud detection, or payment processing.
 ---
 
 ## 📄 License
