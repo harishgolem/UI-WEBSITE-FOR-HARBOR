@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { createHarbourEngine } from './three/HarbourEngine.js';
 import soundEngine from './audio/SoundEngine.js';
+import HarbourPortal from './components/HarbourPortal.jsx';
 import './index.css';
 
 // ─────────────────────────────────────────────
@@ -803,32 +804,13 @@ export default function App() {
 
       {/* Modal / Main App Entrance after "Enter Harbour" */}
       {entered && (
-        <div id="main-app" className="fade-in">
-          <div className="main-welcome-box">
-            <div className="welcome-shield-icon">🛡️</div>
-            <div className="welcome-title">Welcome to Harbour</div>
-            <p className="welcome-sub">
-              Your financial transactions are protected by autonomous real-time shield technology.
-            </p>
-            <div className="welcome-stats-row">
-              <div className="welcome-stat">
-                <div className="stat-number">£0.00</div>
-                <div className="stat-desc">Fraud Losses</div>
-              </div>
-              <div className="welcome-stat">
-                <div className="stat-number">24/7</div>
-                <div className="stat-desc">Acoustic Shield</div>
-              </div>
-              <div className="welcome-stat">
-                <div className="stat-number">100%</div>
-                <div className="stat-desc">Encrypted Vault</div>
-              </div>
-            </div>
-            <button className="btn-primary" onClick={() => setEntered(false)} data-hover style={{ marginTop: 32 }}>
-              Return to Experience
-            </button>
-          </div>
-        </div>
+        <HarbourPortal
+          onClose={() => setEntered(false)}
+          onJumpToStage={(stageIndex) => {
+            setEntered(false);
+            handleDotClick(stageIndex);
+          }}
+        />
       )}
     </>
   );
